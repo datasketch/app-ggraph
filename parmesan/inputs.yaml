@@ -17,12 +17,12 @@ nd_shape:
     selected: dot
 nd_size:
   show: true
-  input_type: sliderInput
+  input_type: numericInput
   input_params:
     label: size
     min: 0
-    max: 5
-    value: 15
+    max: 50
+    value: 6
     step: 1
 nd_color:
   show: true
@@ -31,6 +31,7 @@ nd_color:
     label: color
     colors: 
       - "#8E1A55"
+    max_colors: 1
 nd_border:
   show: true
   input_type: sliderInput
@@ -50,6 +51,7 @@ nd_border_color:
     label: border_color
     colors: 
       - "#AD1472"
+    max_colors: 1
 nd_shadow:
   show: true
   input_type: checkboxInput
@@ -71,6 +73,7 @@ nd_lb_color:
     label: lb_color
     colors:
     - "#343434"
+    max_colors: 1
 nd_lb_size:
   show: true
   show_if:
@@ -110,7 +113,8 @@ ed_color:
   input_params:
     label: color
     colors: 
-      - "#B1CFD8"    
+      - "#B1CFD8"
+    max_colors: 1    
 ed_arrows:
   show: true
   input_type: checkboxInput
@@ -142,6 +146,7 @@ ed_lb_color:
     label: lb_color
     colors:
     - "#343434"
+    max_colors: 1
 ed_lb_size:
   show: true
   show_if:
@@ -202,3 +207,4 @@ background_color:
     label: background_color
     colors: 
       - "#ffffff"
+    max_colors: 1

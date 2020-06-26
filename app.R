@@ -27,7 +27,11 @@ ui <- panelsPage(useShi18ny(),
                  padding: 10px;
                  }
                  #tab div.radio label input:checked + span {
-                 background-color: rgb(195, 113, 155);
+                 background-color: #B70F7F;
+                 color: #ffffff;
+                 font-size: 13px;
+                 font-weight: 700;
+                 letter-spacing: 0.7px;
                  }
                  #tab input[type='radio'] {
                  display: none;
@@ -151,7 +155,7 @@ server <- function(input, output, session) {
     # ch2 <- as.character(parmesan$edges$inputs[[3]]$input_params$choices)
     # names(ch2) <- i_(ch2, lang())
     ch3 <- c("connections", "nodes")
-    names(ch3) <- i_(ch3, lang())
+    names(ch3) <- toupper(i_(ch3, lang()))
     updateSelectizeInput(session, "nd_shape", choices = ch0, selected = input$nd_shape)
     updateSelectizeInput(session, "layout", choices = ch1, selected = input$layout)
     # updateRadioButtons(session, "ed_arrows", choices = ch2, selected = input$ed_arrows)
