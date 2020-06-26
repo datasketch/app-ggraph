@@ -1,0 +1,33 @@
+network:
+  label: network
+  inputs:
+    - title
+    - layout #hierarquical, igraph, circle
+    - background_color
+    #- fixed network?------------------------------
+    #- random seed
+nodes:
+  label: nodes
+  inputs:
+   - nd_shape
+   - nd_size
+   - nd_color
+#   - nd_border
+#   - nd_border_color
+#   - nd_shadow
+   - nd_lb
+   - nd_lb_color
+   - nd_lb_size
+   - nd_lb_wrap
+edges:
+  label: connections
+  inputs:
+    - ed_size
+    - ed_color
+    - ed_arrows
+#    - ed_smooth
+#    - ed_shadow
+    - ed_lb
+    - ed_lb_color #font.color
+    - ed_lb_size
+    - ed_lb_wrap
