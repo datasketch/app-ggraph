@@ -9,6 +9,7 @@ library(tidygraph)
 library(tidyverse)
 library(ggraph)
 library(stringr)
+library(shinycustomloader)
 
 
 
@@ -51,11 +52,14 @@ ui <- panelsPage(useShi18ny(),
                        color = "chardonnay",
                        can_collapse = FALSE,
                        body = div(langSelectorInput("lang", position = "fixed"),
-                                  plotOutput("result", height = "80vh"),
-                                  shinypanels::modal(id = "download",
-                                                     title = ui_("download_net"),
-                                                     uiOutput("modal"))),
-                       footer = shinypanels::modalButton(label = "Download network", modal_id = "download")))
+                                  uiOutput("download"),
+                                  br(),
+                                  withLoader(plotOutput("result", height = "80vh"), type = "image", loader = "loading_gris.gif"))))
+                       #            plotOutput("result", height = "80vh",)
+                       #            shinypanels::modal(id = "download",
+                       #                               title = ui_("download_net"),
+                       #                               uiOutput("modal"))),
+                       # footer = shinypanels::modalButton(label = "Download network", modal_id = "download")))
 
 
 
@@ -128,18 +132,18 @@ server <- function(input, output, session) {
   
   output$connections_preview <- renderUI({
     req(data_input$cn)
-    suppressWarnings(hotr("hotr_cn_input", data = data_input$cn, order = NULL, options = list(height = 470), enableCTypes = FALSE))
+    suppressWarnings(hotr("hotr_cn_input", data = data_input$cn, order = NULL, options = list(height = "80vh"), enableCTypes = FALSE))
   })
   
   output$nodes_preview <- renderUI({
     req(data_input$nd)
-    suppressWarnings(hotr("hotr_nd_input", data = data_input$nd, order = NULL, options = list(height = 470), enableCTypes = FALSE))
+    suppressWarnings(hotr("hotr_nd_input", data = data_input$nd, order = NULL, options = list(height = "80vh"), enableCTypes = FALSE))
   })
   
   path <- "parmesan"
   parmesan <- parmesan_load(path)
   parmesan_input <- parmesan_watch(input, parmesan)
-  # parmesan_alert(parmesan, env = environment())
+  parmesan_alert(parmesan, env = environment())
   parmesan_lang <- reactive({i_(parmesan, lang(), keys = c("label", "choices", "text"))})
   output_parmesan("controls", 
                   parmesan = parmesan_lang,
@@ -196,8 +200,6 @@ server <- function(input, output, session) {
       cn_lb <- str_wrap(cn[[input$ed_lb]], input$ed_lb_wrap)
     }
     t0 <- tbl_graph(nd, cn)
-    print(input$ed_lb)
-    # print(!!ensym(input$ed_lb))
     ggraph(t0, layout = input$layout) +
       labs(title = input$title) +
       # geom_edge_link(aes_string(label = ifelse(input$ed_lb == "no", NA, input$ed_lb)),
@@ -215,9 +217,16 @@ server <- function(input, output, session) {
                       colour = input$nd_color,
                       # aes(colour = "from"),
                       show.legend = FALSE) +
-      geom_node_text(label = nd_lb, size = input$nd_lb_size, colour = input$nd_lb_color, repel = TRUE) +
+      geom_node_text(label = nd_lb, size = input$nd_lb_size,# colour = input$nd_lb_color, 
+                     repel = TRUE) +
       theme(panel.background = element_rect(fill = input$background_color),
             plot.title = element_text(debug = FALSE, margin = margin(0, 0, 6.6, 0), size = rel(1.8), hjust = 0.5, vjust = 0.5, face = "bold"))
+  })
+  
+  output$download <- renderUI({
+    lb <- i_("download_net", lang())
+    dw <- i_("download", lang())
+    downloadImageUI("download_data_button", label = lb, text = dw, formats = c("jpeg", "png", "svg", "pdf"), display = "dropdown")
   })
   
   # renderizando reactable
@@ -225,15 +234,13 @@ server <- function(input, output, session) {
     req(ntwrk())
   })
   
-  output$modal <- renderUI({
-    dw <- i_("download_net", lang())
-    downloadImageUI("download_data_button", dw, formats = c("jpeg", "png", "svg", "pdf"))
-  })
+  # output$modal <- renderUI({
+  #   dw <- i_("download_net", lang())
+  #   downloadImageUI("download_data_button", dw, formats = c("jpeg", "png", "svg", "pdf"))
+  # })
   
   # descargas
   callModule(downloadImage, "download_data_button", graph = reactive(ntwrk()), lib = "ggplot", formats = c("jpeg", "png", "svg", "pdf"))
-  
-  
   
 }
 

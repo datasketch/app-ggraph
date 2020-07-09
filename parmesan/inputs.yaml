@@ -204,7 +204,7 @@ background_color:
   show: true
   input_type: colorPaletteInput
   input_params:
-    label: background_color
+    label: background
     colors: 
       - "#ffffff"
     max_colors: 1
