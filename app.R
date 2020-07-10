@@ -49,17 +49,11 @@ ui <- panelsPage(useShi18ny(),
                        color = "chardonnay",
                        body = uiOutput("controls")),
                  panel(title = ui_("viz"),
+                       title_plugin = uiOutput("download"),
                        color = "chardonnay",
                        can_collapse = FALSE,
                        body = div(langSelectorInput("lang", position = "fixed"),
-                                  uiOutput("download"),
-                                  br(),
                                   withLoader(plotOutput("result", height = "80vh"), type = "image", loader = "loading_gris.gif"))))
-                       #            plotOutput("result", height = "80vh",)
-                       #            shinypanels::modal(id = "download",
-                       #                               title = ui_("download_net"),
-                       #                               uiOutput("modal"))),
-                       # footer = shinypanels::modalButton(label = "Download network", modal_id = "download")))
 
 
 
@@ -156,13 +150,10 @@ server <- function(input, output, session) {
     names(ch0) <- i_(ch0, lang())
     ch1 <- as.character(parmesan$network$inputs[[2]]$input_params$choices)
     names(ch1) <- i_(ch1, lang())
-    # ch2 <- as.character(parmesan$edges$inputs[[3]]$input_params$choices)
-    # names(ch2) <- i_(ch2, lang())
     ch3 <- c("connections", "nodes")
     names(ch3) <- toupper(i_(ch3, lang()))
     updateSelectizeInput(session, "nd_shape", choices = ch0, selected = input$nd_shape)
     updateSelectizeInput(session, "layout", choices = ch1, selected = input$layout)
-    # updateRadioButtons(session, "ed_arrows", choices = ch2, selected = input$ed_arrows)
     updateRadioButtons(session, "tab", choices = ch3, selected = input$tab)
   })
   
@@ -217,7 +208,7 @@ server <- function(input, output, session) {
                       colour = input$nd_color,
                       # aes(colour = "from"),
                       show.legend = FALSE) +
-      geom_node_text(label = nd_lb, size = input$nd_lb_size,# colour = input$nd_lb_color, 
+      geom_node_text(label = nd_lb, size = input$nd_lb_size, colour = input$nd_lb_color, 
                      repel = TRUE) +
       theme(panel.background = element_rect(fill = input$background_color),
             plot.title = element_text(debug = FALSE, margin = margin(0, 0, 6.6, 0), size = rel(1.8), hjust = 0.5, vjust = 0.5, face = "bold"))
@@ -233,11 +224,6 @@ server <- function(input, output, session) {
   output$result <- renderPlot({
     req(ntwrk())
   })
-  
-  # output$modal <- renderUI({
-  #   dw <- i_("download_net", lang())
-  #   downloadImageUI("download_data_button", dw, formats = c("jpeg", "png", "svg", "pdf"))
-  # })
   
   # descargas
   callModule(downloadImage, "download_data_button", graph = reactive(ntwrk()), lib = "ggplot", formats = c("jpeg", "png", "svg", "pdf"))

@@ -1,0 +1,12 @@
+name: app-ggraph
+title: app-ggraph
+username:
+account: randommonkey
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2555072
+bundleId: 3374372
+url: https://randommonkey.shinyapps.io/app-ggraph/
+when: 1594345430.19693
+asMultiple: FALSE
+asStatic: FALSE

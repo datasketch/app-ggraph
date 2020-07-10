@@ -1,0 +1,12 @@
+name: app-ggraph
+title: app-ggraph
+username:
+account: datasketch
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2555045
+bundleId: 3374358
+url: https://datasketch.shinyapps.io/app-ggraph/
+when: 1594345154.03367
+asMultiple: FALSE
+asStatic: FALSE
