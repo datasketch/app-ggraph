@@ -14,6 +14,7 @@ library(shinycustomloader)
 
 
 ui <- panelsPage(useShi18ny(),
+                 showDebug(),
                  tags$head(tags$style(HTML("
                  #tab {
                  margin-bottom: 27px;
@@ -117,10 +118,11 @@ server <- function(input, output, session) {
     req(input$`initial_data-tableInput`, data_input$up)
     d0 <- data_input$up()
     if (!is.null(d0)) {
-      data_input$cn <- d0
-      if (all(c("to", "from") %in% names(d0))) {
-        data_input$nd <- data.frame(id = unique(c(d0$to, d0$from)))
+      if (!all(c("to", "from") %in% names(d0))) {
+        names(d0)[1:2] <- c("from", "to")
       }
+      data_input$nd <- data.frame(id = unique(c(d0$to, d0$from)))
+      data_input$cn <- d0
     }
   })
   
