@@ -23,6 +23,7 @@ google_sh_pl: https://docs.google.com/spreadsheets/...
 google_sh_pg_lb: Folha
 download_net: Baixar rede
 download: Baixar
+get_link: Obter link
 connections: Conexão
 nodes: Nós
 size: Tamanho

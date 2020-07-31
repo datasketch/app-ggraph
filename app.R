@@ -128,12 +128,12 @@ server <- function(input, output, session) {
   
   output$connections_preview <- renderUI({
     req(data_input$cn)
-    suppressWarnings(hotr("hotr_cn_input", data = data_input$cn, order = NULL, options = list(height = "80vh"), enableCTypes = FALSE))
+    suppressWarnings(hotr("hotr_cn_input", data = data_input$cn, order = NULL, options = list(height = "82vh"), enableCTypes = FALSE))
   })
   
   output$nodes_preview <- renderUI({
     req(data_input$nd)
-    suppressWarnings(hotr("hotr_nd_input", data = data_input$nd, order = NULL, options = list(height = "80vh"), enableCTypes = FALSE))
+    suppressWarnings(hotr("hotr_nd_input", data = data_input$nd, order = NULL, options = list(height = "82vh"), enableCTypes = FALSE))
   })
   
   path <- "parmesan"
@@ -219,7 +219,9 @@ server <- function(input, output, session) {
   output$download <- renderUI({
     lb <- i_("download_net", lang())
     dw <- i_("download", lang())
-    downloadImageUI("download_data_button", label = lb, text = dw, formats = c("jpeg", "png", "svg", "pdf"), display = "dropdown")
+    gl <- i_("get_link", lang())
+    downloadImageUI("download_data_button", dropdownLabel = lb, text = dw, formats = c("link", "jpeg", "png", "svg", "pdf"), 
+                    display = "dropdown", getLinkLabel = gl, modalTitle = gl)
   })
   
   # renderizando reactable
@@ -228,7 +230,7 @@ server <- function(input, output, session) {
   })
   
   # descargas
-  callModule(downloadImage, "download_data_button", graph = reactive(ntwrk()), lib = "ggplot", formats = c("jpeg", "png", "svg", "pdf"))
+  callModule(downloadImage, "download_data_button", graph = reactive(ntwrk()), lib = "ggplot", formats = c("link", "jpeg", "png", "svg", "pdf"))
   
 }
 
